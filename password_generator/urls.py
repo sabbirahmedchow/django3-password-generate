@@ -16,7 +16,6 @@ Including another URLconf
 from django.urls import path
 from generator import views
 urlpatterns = [
-  path("", views.home),
-  path("generated-password/", views.password, name='password'),
-  path("test/", views.test, name='test'),
+  path("", views.test),
+  path("generate-password/", views.test, name='test'),
 ]

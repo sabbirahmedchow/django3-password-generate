@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import random
 
 # Create your views here.
@@ -9,15 +9,18 @@ def home(request):
 
 def test(request):
     if request.method == 'POST':
-        characters = list('abcdefghijklmnopqestuvwxyz')
+        characters = list()
 
-        if request.POST.get('uppercase'):
+        if request.POST.get('lowercase') == 'true':
+            characters = list('abcdefghijklmnopqestuvwxyz')
+
+        if request.POST.get('uppercase') == 'true':
             characters.extend(list('ABCDEFGHIJKLMNOPQRSTUVWXYZ'))
 
-        if request.POST.get('special'):
+        if request.POST.get('special') == 'true':
             characters.extend(list('!@#$~^&*()_%?'))
 
-        if request.POST.get('numbers'):
+        if request.POST.get('number') == 'true':
             characters.extend(list('1234567890'))
 
         length = int(request.POST.get('length'))
@@ -26,10 +29,11 @@ def test(request):
         for x in range(length):
             thepassword += random.choice(characters)
 
-        return render(request, 'generator/test.html', {'password': thepassword})
+        return JsonResponse({'password': thepassword})
+
 
     else:
-        return render(request, 'generator/test.html')
+        return render(request, 'generator/generate-password.html')
 
 
 
